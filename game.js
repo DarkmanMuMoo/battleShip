@@ -58,14 +58,15 @@ function isAdjacent(field, cordinate, type, stance, order) {
 
     let left = _get(field, `[${cordinate[0] - 1}][${cordinate[1]}]`)
     let right = _get(field, `[${cordinate[0] + 1}][${cordinate[1]}]`)
-    let up = _get(field, `[${cordinate[0] - 1}][${cordinate[1] + 1}]`)
-    let down = _get(field, `[${cordinate[0] - 1}][${cordinate[1] - 1}]`)
+    let up = _get(field, `[${cordinate[0]}][${cordinate[1] + 1}]`)
+    let down = _get(field, `[${cordinate[0]}][${cordinate[1] - 1}]`)
     let upLeft = _get(field, `[${cordinate[0] - 1}][${cordinate[1] + 1}]`)
     let upright = _get(field, `[${cordinate[0] + 1}][${cordinate[1] + 1}]`)
     let downLeft = _get(field, `[${cordinate[0] - 1}][${cordinate[1] - 1}]`)
     let downRight = _get(field, `[${cordinate[0] + 1}][${cordinate[1] - 1}]`)
     let isHead = order == 0;
     let isTail = order == type - 1;
+    let isBody = !isHead && !isTail;
     let isOccupied = (v) => v != undefined && v != 0;
 
     if (type == 1) {
@@ -87,9 +88,23 @@ function isAdjacent(field, cordinate, type, stance, order) {
             || isOccupied(downLeft)
             || isOccupied(downRight);
     } else if (type == 3) {
-        return false;
+        return ((isTail || isBody) && stance == 0 ? false : isOccupied(left))
+        || ((isHead || isBody) && stance == 0 ? false : isOccupied(right))
+        || ((isTail || isBody) && stance == 1 ? false : isOccupied(up))
+        || ((isHead || isBody ) && stance == 1 ? false : isOccupied(down))
+        || isOccupied(upLeft)
+        || isOccupied(upright)
+        || isOccupied(downLeft)
+        || isOccupied(downRight);
     } else if (type == 4) {
-        return false;
+        return ((isTail || isBody) && stance == 0 ? false : isOccupied(left))
+        || ((isHead || isBody) && stance == 0 ? false : isOccupied(right))
+        || ((isTail || isBody) && stance == 1 ? false : isOccupied(up))
+        || ((isHead || isBody ) && stance == 1 ? false : isOccupied(down))
+        || isOccupied(upLeft)
+        || isOccupied(upright)
+        || isOccupied(downLeft)
+        || isOccupied(downRight);
     }
 
 
