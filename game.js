@@ -78,25 +78,7 @@ function isAdjacent(field, cordinate, type, stance, order) {
             || isOccupied(upright)
             || isOccupied(downLeft)
             || isOccupied(downRight);
-    } else if (type == 2) {
-        return (isTail && stance == 0 ? false : isOccupied(left))
-            || (isHead && stance == 0 ? false : isOccupied(right))
-            || (isTail && stance == 1 ? false : isOccupied(up))
-            || (isHead && stance == 1 ? false : isOccupied(down))
-            || isOccupied(upLeft)
-            || isOccupied(upright)
-            || isOccupied(downLeft)
-            || isOccupied(downRight);
-    } else if (type == 3) {
-        return ((isTail || isBody) && stance == 0 ? false : isOccupied(left))
-        || ((isHead || isBody) && stance == 0 ? false : isOccupied(right))
-        || ((isTail || isBody) && stance == 1 ? false : isOccupied(up))
-        || ((isHead || isBody ) && stance == 1 ? false : isOccupied(down))
-        || isOccupied(upLeft)
-        || isOccupied(upright)
-        || isOccupied(downLeft)
-        || isOccupied(downRight);
-    } else if (type == 4) {
+    }  else if (type == 4 || type == 3 || type == 2) {
         return ((isTail || isBody) && stance == 0 ? false : isOccupied(left))
         || ((isHead || isBody) && stance == 0 ? false : isOccupied(right))
         || ((isTail || isBody) && stance == 1 ? false : isOccupied(up))
