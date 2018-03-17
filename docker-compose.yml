@@ -1,0 +1,13 @@
+version: '2'
+services:
+    battleship-db:
+        image: aashreys/mongo-auth:latest
+        environment:
+            - AUTH=yes
+            - MONGODB_ADMIN_USER=root
+            - MONGODB_ADMIN_PASS=password
+            - MONGODB_APPLICATION_DATABASE=battleShip
+            - MONGODB_APPLICATION_USER=battleShip
+            - MONGODB_APPLICATION_PASS=123
+        ports:
+             - 27017:27017
