@@ -2,11 +2,22 @@
 const _get = require('lodash/get');
 const size = 10;
 const shipType = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
-
-function get() {
-    let field = createField();
-    randomShips(field);
-    return field;
+function get(name, owner) {
+    let game = {
+        name,
+        owner,
+        isOver: false,
+        move: 0,
+        location: {
+            battleShip: [],
+            cruisers: [],
+            destroyers: [],
+            submarines: [],
+        },
+    };
+    game.field = createField();
+    randomShips(game);
+    return game;
 }
 function createField() {
     let field = [];
@@ -19,17 +30,17 @@ function createField() {
     }
     return field;
 }
-function randomShips(field) {
+function randomShips(game) {
 
     for (let type of shipType) {
         let isPlace = false;
         while (!isPlace) {
-            isPlace = place(type, field);
+            isPlace = place(type, game);
         }
     }
 }
 
-function place(type, field) {
+function place(type, game) {
 
     let startCordinate = [random(size), random(size)];
     let stance = random(2);
@@ -37,18 +48,24 @@ function place(type, field) {
     for (let i = 0; i < type; i++) {
         let x = stance == 0 ? startCordinate[0] + i : startCordinate[0];
         let y = stance == 0 ? startCordinate[0] : startCordinate[1] - i;
-        if (!canPlace(field, x, y)) {
+        if (!canPlace(game.field, x, y)) {
             return false;
         }
-        if (isAdjacent(field, [x, y], type, stance, i)) {
+        if (isAdjacent(game.field, [x, y], type, stance, i)) {
             return false;
         }
         shipCodinate.push([x, y]);
     }
 
     for (let cordinate of shipCodinate) {
-        field[cordinate[0]][cordinate[1]] = type;
-        console.log(`ship type ${type} place at ${cordinate[0]} ,${[cordinate[1]]} value = ${field[cordinate[0]][cordinate[1]]}`);
+        game.field[cordinate[0]][cordinate[1]] = type;
+        console.log(`ship type ${type} place at ${cordinate[0]} ,${[cordinate[1]]} value = ${game.field[cordinate[0]][cordinate[1]]}`);
+    }
+    switch (type) {
+    case 1: game.location.submarines.push(shipCodinate); break;
+    case 2: game.location.destroyers.push(shipCodinate); break;
+    case 3: game.location.cruisers.push(shipCodinate); break;
+    case 4: game.location.battleShip.push(shipCodinate); break;
     }
 
     return true;
@@ -78,15 +95,15 @@ function isAdjacent(field, cordinate, type, stance, order) {
             || isOccupied(upright)
             || isOccupied(downLeft)
             || isOccupied(downRight);
-    }  else if (type == 4 || type == 3 || type == 2) {
+    } else if (type == 4 || type == 3 || type == 2) {
         return ((isTail || isBody) && stance == 0 ? false : isOccupied(left))
-        || ((isHead || isBody) && stance == 0 ? false : isOccupied(right))
-        || ((isTail || isBody) && stance == 1 ? false : isOccupied(up))
-        || ((isHead || isBody ) && stance == 1 ? false : isOccupied(down))
-        || isOccupied(upLeft)
-        || isOccupied(upright)
-        || isOccupied(downLeft)
-        || isOccupied(downRight);
+            || ((isHead || isBody) && stance == 0 ? false : isOccupied(right))
+            || ((isTail || isBody) && stance == 1 ? false : isOccupied(up))
+            || ((isHead || isBody) && stance == 1 ? false : isOccupied(down))
+            || isOccupied(upLeft)
+            || isOccupied(upright)
+            || isOccupied(downLeft)
+            || isOccupied(downRight);
     }
 
 
