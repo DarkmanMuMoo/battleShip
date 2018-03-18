@@ -1,5 +1,11 @@
 version: '2'
 services:
+    battleship:
+        build: .
+        ports:
+            - "3000:3000"
+        environment:
+            - "db=mongodb://battleShip:123@battleship-db:27017/battleShip"    
     battleship-db:
         image: aashreys/mongo-auth:latest
         environment:
