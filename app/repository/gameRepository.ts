@@ -11,23 +11,20 @@ export default class GameRepository {
         field: Array,
         ship: Array
     });
-    private model:Model<any> = null;
+    private model: Model<any> = null;
 
     constructor() {
         this.model = model<any>('game', this.schema);
     }
 
-    create(game: BattleShip.Game):Promise<BattleShip.Game> {
-        return new  this.model(game).save()
+    create(game: BattleShip.Game): Promise<BattleShip.Game> {
+        return new this.model(game).save()
     }
     findOne(id) {
         return this.model.findById(id);
     }
-
-    
-    update(id:string,game:BattleShip.Game){
-
-        return this.model.findByIdAndUpdate(id,game);
+    update(id: string, game: BattleShip.Game) {
+        return this.model.findByIdAndUpdate(id, game);
     }
 
 

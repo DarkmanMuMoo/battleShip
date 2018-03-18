@@ -2,21 +2,26 @@ import generator from './gameGenerator'
 import { Service } from "typedi";
 import GameRepository from '../repository/gameRepository';
 import { ForbiddenError, NotFoundError } from 'routing-controllers';
-enum ShipType {
+
+export enum ShipType {
     BattleShip = 4,
     Cruisers = 3,
     Destroyers = 2,
     Submarines = 1
 }
-enum FireStatus {
+
+export enum FireStatus {
     MISSED = 0,
     HIT = 1,
     SANK = 2,
     WIN = 3
 }
 @Service()
-export default class GameService {
 
+export  class GameService {
+
+    private static GAME_NOT_EXIST: string = 'game not exist';
+    private static GAME_OVER: string = 'game is over';
     constructor(private gameRepository: GameRepository) {
 
     }
@@ -29,7 +34,7 @@ export default class GameService {
     getOne(id: string): Promise<BattleShip.Game> {
         return this.gameRepository.findOne(id).then(game => {
             if (!game) {
-                throw new NotFoundError('game not exist');
+                throw new NotFoundError(GameService.GAME_NOT_EXIST);
             }
             return game;
         });
@@ -38,21 +43,23 @@ export default class GameService {
     fire(id: string, cordinate: number[]): Promise<BattleShip.Result> {
         return this.getOne(id).then(game => {
             if (!game) {
-                throw new NotFoundError('game not exist');
+                throw new NotFoundError(GameService.GAME_NOT_EXIST);
             }
             if (game.isOver) {
-                throw new ForbiddenError('game is Over');
+                throw new ForbiddenError(GameService.GAME_OVER);
             }
             return game;
         }).then(game => this.process(game, cordinate));
     }
-
+    private isSpaceEmptyOrGotHit(space:number){
+       return space == 0 || space == -1;
+    }
     private process(game: BattleShip.Game, cordinate: number[]): Promise<BattleShip.Result> {
 
         let space = game.field[cordinate[0]][cordinate[1]];
         let result: BattleShip.Result = null;
         game.move++;
-        if (space == 0 || space == -1) {
+        if (this.isSpaceEmptyOrGotHit(space)) {
             result = {
                 status: FireStatus.MISSED,
                 message: 'Miss'
@@ -61,9 +68,9 @@ export default class GameService {
             // it was Hit !!
             game.field[cordinate[0]][cordinate[1]] = -1;
             let ship = this.getShip(game, cordinate);
-            ship.location = ship.location.filter(c => !(c[0] == cordinate[0] && c[1] == cordinate[1]));
+            let otherCordinate = c => !(c[0] == cordinate[0] && c[1] == cordinate[1])
+            ship.location = ship.location.filter(otherCordinate);
             ship.isAlive = ship.location.length > 0;
-
             if (this.isAllShipSank(game)) {
                 game.isOver = true;
                 result = {

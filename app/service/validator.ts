@@ -3,14 +3,9 @@ import { BadRequestError } from 'routing-controllers';
 @Service()
 export default class Validator {
 
-
     validateGame(game: BattleShip.GameDTO) {
-
-
         this.validateString(game.name, 'name must not empty');
         this.validateString(game.owner, 'owner must not empty');
-
-
     }
 
     validateCordinate(x: number, y: number) {
@@ -25,7 +20,6 @@ export default class Validator {
             throw new BadRequestError(message);
         }
     }
-
     validateExist(value: any, message: string) {
         if (value === null || value === undefined) {
             throw new BadRequestError(message);

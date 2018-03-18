@@ -1,19 +1,19 @@
 
-import { JsonController, Get, Post, Param, Put, Delete, Body, QueryParam } from "routing-controllers";
+import { JsonController, Get, Post, Param, Put, Body, QueryParam } from "routing-controllers";
 import { Service } from "typedi";
-import GameService from "../service/gameService";
+import { GameService } from "../service/gameService";
 import Validator from "../service/validator";
 
 @Service()
 @JsonController('/game')
 export default class GameController {
-  
+
     constructor(private gameService: GameService, private validator: Validator) {
     }
 
     @Get("/:id")
     getOne(@Param("id") id: string) {
-        return this.gameService.getOne(id).then(this.mapper);  
+        return this.gameService.getOne(id).then(this.mapper);
     }
 
     @Post()
@@ -25,7 +25,7 @@ export default class GameController {
 
     @Put("/:id/fire")
     fire(@Param("id") id: string, @QueryParam("x") x: number, @QueryParam("y") y: number) {
-        this.validator.validateCordinate(x,y);
+        this.validator.validateCordinate(x, y);
         return this.gameService.fire(id, [x, y]);
     }
 
