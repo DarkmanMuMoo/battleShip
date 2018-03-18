@@ -77,7 +77,7 @@ export default class GameService {
                 }
             } else {
                 result = {
-                    status: FireStatus.WIN,
+                    status: FireStatus.SANK,
                     message: `You just sank the ${ShipType[ship.type]}`
                 }
             }

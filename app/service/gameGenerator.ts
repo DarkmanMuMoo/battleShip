@@ -56,7 +56,7 @@ function place(type, game:BattleShip.Game) {
 
     for (let cordinate of shipCodinate) {
         game.field[cordinate[0]][cordinate[1]] = type;
-        console.log(`ship type ${type} place at ${cordinate[0]} ,${[cordinate[1]]} value = ${game.field[cordinate[0]][cordinate[1]]}`);
+        //console.log(`ship type ${type} place at ${cordinate[0]} ,${[cordinate[1]]} value = ${game.field[cordinate[0]][cordinate[1]]}`);
     }
     game.ship.push(createShip(type,shipCodinate));
     return true;
