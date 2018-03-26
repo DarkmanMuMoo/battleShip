@@ -5,7 +5,9 @@ services:
         ports:
             - "3000:3000"
         environment:
-            - "db=mongodb://battleShip:123@battleship-db:27017/battleShip"    
+            - "db=mongodb://battleShip:123@battleship-db:27017/battleShip"
+        depends_on:
+            - "battleship-db"    
     battleship-db:
         image: aashreys/mongo-auth:latest
         environment:
