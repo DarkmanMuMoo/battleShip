@@ -3,7 +3,7 @@ import { JsonController, Get, Post, Param, Put, Body, QueryParam } from "routing
 import { Service } from "typedi";
 import { GameService } from "../service/gameService";
 import Validator from "../service/validator";
-import { BattleShip } from '../../typings'
+import { GameModel } from "../repository/gameRepository";
 @Service()
 @JsonController('/game')
 export default class GameController {
@@ -29,7 +29,7 @@ export default class GameController {
         return this.gameService.fire(id, [x, y]);
     }
 
-    private mapper = (game: BattleShip.GameModel) => {
+    private mapper = (game: GameModel) => {
         return {
             id: game.id,
             name: game.name,

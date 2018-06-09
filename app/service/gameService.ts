@@ -1,16 +1,14 @@
 
 import generator from './gameGenerator'
 import { Service } from "typedi";
-import GameRepository from '../repository/gameRepository';
+import { GameRepository, GameModel } from '../repository/gameRepository';
 import { ForbiddenError, NotFoundError } from 'routing-controllers';
-import { BattleShip}  from "../../typings"
 export enum ShipType {
     BattleShip = 4,
     Cruisers = 3,
     Destroyers = 2,
     Submarines = 1
 }
-
 export enum FireStatus {
     MISSED = 0,
     HIT = 1,
@@ -18,8 +16,7 @@ export enum FireStatus {
     WIN = 3
 }
 @Service()
-
-export  class GameService {
+export class GameService {
 
     private static GAME_NOT_EXIST: string = 'game not exist';
     private static GAME_OVER: string = 'game is over';
@@ -32,7 +29,7 @@ export  class GameService {
         return this.gameRepository.create(game);
     }
 
-    getOne(id: string): Promise<BattleShip.GameModel> {
+    getOne(id: string) {
         return this.gameRepository.findOne(id).then(game => {
             if (!game) {
                 throw new NotFoundError(GameService.GAME_NOT_EXIST);
@@ -52,10 +49,10 @@ export  class GameService {
             return game;
         }).then(game => this.process(game, cordinate));
     }
-    private isSpaceEmptyOrGotHit(space:number){
-       return space == 0 || space == -1;
+    private isSpaceEmptyOrGotHit(space: number) {
+        return space == 0 || space == -1;
     }
-    private process(game: BattleShip.GameModel, cordinate: number[]): Promise<BattleShip.Result> {
+    private process(game: GameModel, cordinate: number[]): Promise<BattleShip.Result> {
 
         let space = game.field[cordinate[0]][cordinate[1]];
         let result: BattleShip.Result = null;

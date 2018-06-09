@@ -1,6 +1,5 @@
 import { Service } from 'typedi';
 import { BadRequestError } from 'routing-controllers';
-import { BattleShip}  from "../../typings"
 @Service()
 export default class Validator {
 

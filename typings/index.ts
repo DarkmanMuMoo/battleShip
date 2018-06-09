@@ -1,7 +1,6 @@
 
 
-import * as mongoose from "mongoose";
- export namespace BattleShip {
+  namespace BattleShip {
 
     export interface Game {
         name: string;
@@ -12,9 +11,7 @@ import * as mongoose from "mongoose";
         ship: Ship[];
     }
 
-    export interface GameModel extends Game,mongoose.Document {
-
-    }
+    
     export interface GameDTO {
         id?: string;
         name: string;

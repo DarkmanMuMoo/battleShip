@@ -1,9 +1,10 @@
 
 import { Service } from 'typedi';
 import { Document, model, Model, Schema } from 'mongoose';
-import { BattleShip } from '../../typings'
+
+export interface GameModel extends BattleShip.Game,Document {}
 @Service()
-export default class GameRepository {
+export  class GameRepository {
     private schema = new Schema({
         name: String,
         owner: String,
@@ -12,10 +13,10 @@ export default class GameRepository {
         field: Array,
         ship: Array
     });
-    private model: Model<BattleShip.GameModel> = null;
+    private model: Model<GameModel> = null;
 
     constructor() {
-        this.model = model<BattleShip.GameModel>('game', this.schema);
+        this.model = model<GameModel>('game', this.schema);
     }
 
     create(game: BattleShip.Game){
