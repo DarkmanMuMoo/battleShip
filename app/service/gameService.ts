@@ -1,8 +1,9 @@
+
 import generator from './gameGenerator'
 import { Service } from "typedi";
 import GameRepository from '../repository/gameRepository';
 import { ForbiddenError, NotFoundError } from 'routing-controllers';
-
+import { BattleShip}  from "../../typings"
 export enum ShipType {
     BattleShip = 4,
     Cruisers = 3,
@@ -31,7 +32,7 @@ export  class GameService {
         return this.gameRepository.create(game);
     }
 
-    getOne(id: string): Promise<BattleShip.Game> {
+    getOne(id: string): Promise<BattleShip.GameModel> {
         return this.gameRepository.findOne(id).then(game => {
             if (!game) {
                 throw new NotFoundError(GameService.GAME_NOT_EXIST);
@@ -54,7 +55,7 @@ export  class GameService {
     private isSpaceEmptyOrGotHit(space:number){
        return space == 0 || space == -1;
     }
-    private process(game: BattleShip.Game, cordinate: number[]): Promise<BattleShip.Result> {
+    private process(game: BattleShip.GameModel, cordinate: number[]): Promise<BattleShip.Result> {
 
         let space = game.field[cordinate[0]][cordinate[1]];
         let result: BattleShip.Result = null;

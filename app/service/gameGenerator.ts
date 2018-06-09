@@ -2,7 +2,7 @@
 const _get = require('lodash/get');
 const size = 10;
 const shipType = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
-
+import { BattleShip } from '../../typings'
 export default function (name, owner) :BattleShip.Game {
     let game:BattleShip.Game = {
         name,

@@ -6,7 +6,8 @@
   "scripts": {
     "test": "npm run build && cross-env NODE_ENV=test db=mongodb://testDB/battleShip  mocha \"./build/test/*.js\"  --timeout 120000",
     "build": " rm -fr ./build && tsc",
-    "start": "concurrently --kill-others \"tsc -w\" \"nodemon  ./build/server.js\""
+    "start": "concurrently --kill-others \"tsc -w\" \"nodemon  ./build/server.js\"",
+    "tsc:watch":"tsc -w"
   },
   "author": "",
   "license": "ISC",

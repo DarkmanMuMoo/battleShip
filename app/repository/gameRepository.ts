@@ -1,6 +1,7 @@
+
 import { Service } from 'typedi';
 import { Document, model, Model, Schema } from 'mongoose';
-
+import { BattleShip } from '../../typings'
 @Service()
 export default class GameRepository {
     private schema = new Schema({
@@ -11,13 +12,13 @@ export default class GameRepository {
         field: Array,
         ship: Array
     });
-    private model: Model<any> = null;
+    private model: Model<BattleShip.GameModel> = null;
 
     constructor() {
-        this.model = model<any>('game', this.schema);
+        this.model = model<BattleShip.GameModel>('game', this.schema);
     }
 
-    create(game: BattleShip.Game): Promise<BattleShip.Game> {
+    create(game: BattleShip.Game){
         return new this.model(game).save()
     }
     findOne(id) {

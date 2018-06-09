@@ -3,6 +3,7 @@
   "compilerOptions": {
     "outDir": "build",
     "module": "commonjs",
+    "isolatedModules": false,
     "target": "es6",
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
@@ -12,9 +13,6 @@
   },
   "include": [
     "**/*"
-  ],
-  "files": [
-    "typings/index.d.ts"
   ],
   "exclude": [
     "node_modules",
